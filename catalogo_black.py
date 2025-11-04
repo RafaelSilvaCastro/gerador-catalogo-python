@@ -13,20 +13,20 @@ import math
 
 # === CONFIGURAÇÕES GERAIS ===
 excel_path = "produtos.xlsx"
-pdf_path = "catalogo_amaisciclo.pdf"
+pdf_path = "catalogo_amaisciclo_bike_friday.pdf"
 logo_path = "logo_amaisciclo.png"
+img_desconto = "10porcem.jpg"
 img_dir = "img_produtos"
 
 # Cores
-COR_AZUL_CODIGO = colors.Color(0.25, 0.45, 0.85)
-COR_SOMBRA = colors.Color(0.9, 0.9, 0.9)
+COR_AZUL_CODIGO = colors.Color(red=0.8, green=0.0, blue=0.0) # Vermelho Forte para o Código
+COR_SOMBRA = colors.Color(0.8, 0.8, 0.8) # Sombra mais clara
 COR_FUNDO_CARD = colors.white
-COR_FUNDO_ESCURO = colors.Color(red=28/255, green=35/255, blue=46/255) 
-COR_FAIXA_MEIO = colors.Color(red=39/255, green=47/255, blue=58/255)
+COR_FUNDO_ESCURO = colors.Color(red=0.0, green=0.0, blue=0.0) # Preto Absoluto para o fundo da capa
+COR_FAIXA_MEIO = colors.Color(red=0.1, green=0.1, blue=0.1) # Cinza Quase Preto para a faixa da capa/índice
 COR_TEXTO_CLARO = colors.white
 COR_FUNDO_CLARO = colors.Color(0.95, 0.97, 1.0)
-COR_LINK_AZUL = colors.Color(0.1, 0.3, 0.8)
-
+COR_LINK_AZUL = colors.Color(red=0.9, green=0.4, blue=0.1) # Laranja Forte para Destaque/Links
 
 # === FUNÇÃO DE NORMALIZAÇÃO DO CÓDIGO ===
 def normalize_code(code_str):
