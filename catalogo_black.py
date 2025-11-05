@@ -54,11 +54,7 @@ def cabecalho(c, largura, altura, pagina, categoria_atual=""):
     c.setFillColorRGB(0, 0, 0)
     c.setFont("Helvetica-Bold", 18)
     c.drawString(7 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, "BIKE FRIDAY A+Ciclo")
-    
-    # Adiciona a categoria atual no cabeçalho
-    if categoria_atual:
-        c.setFont("Helvetica", 10)
-        c.drawRightString(largura - 2 * cm, altura - ALTURA_CABECALHO + 1.2 * cm, f"Categoria: {categoria_atual.upper()}")
+
     
     c.setStrokeColorRGB(0.7, 0.7, 0.7)
     c.setLineWidth(1)
@@ -89,19 +85,21 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
         logo_capa_width = 13 * cm
         logo_topo_y = altura * 0.65
         c.drawImage(logo_path, (largura - logo_capa_width) / 2, logo_topo_y, 
-                    width=logo_capa_width, preserveAspectRatio=True, mask='auto')
+                     width=logo_capa_width, preserveAspectRatio=True, mask='auto')
     except Exception as e:
         c.setFillColor(COR_TEXTO_CLARO)
         c.setFont("Helvetica-Bold", 40)
         c.drawCentredString(largura / 2, altura * 0.82, "A+CICLO")
 
     c.setFillColor(COR_TEXTO_CLARO)
-    c.setFont("Helvetica-Bold", 35)
-    c.drawCentredString(largura / 2, altura * 0.45, "BIKE FRIDAY")
+    c.setFont("Helvetica-Bold", 48)
+    c.drawCentredString(largura / 2, altura * 0.50, "BIKE FRIDAY")
+    c.setFillColor(colors.red)
     c.setFont("Helvetica", 22)
-    #c.drawCentredString(largura / 2, altura * 0.40, "A+CICLO")
-    #c.setFont("Helvetica", 14)
-    c.drawCentredString(largura / 2, altura * 0.35, "Peças e Acessórios para Ciclismo")
+    c.drawCentredString(largura / 2, altura * 0.45, "PRODUTOS COM ATÉ 44% DE DESCONTO")
+    c.setFillColor(COR_TEXTO_CLARO)
+    c.setFont("Helvetica", 14)
+    c.drawCentredString(largura / 2, altura * 0.38, "Peças e Acessórios para Ciclismo")
 
     box_largura = 12 * cm
     box_altura = 1.2 * cm
@@ -113,12 +111,9 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 10)
-    if tipo_ordenacao == 'C':
-        ordem_texto = "Organizado por Categoria"
-    else:
-        ordem_texto = "Valido"
+    
+    texto_data = f" Válido de {data_geracao} até 29/11/2025!"
         
-    texto_data = f"{ordem_texto} de {data_geracao} até 29/11/2025!"
     c.drawCentredString(largura / 2, box_y + 0.4 * cm, texto_data)
 
     c.setFillColor(COR_TEXTO_CLARO)
@@ -127,106 +122,23 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
 
     c.showPage()
 
-def criar_indice(c, largura, altura, categorias_map):
-    """Desenha a página de índice com links para as categorias."""
-    
-    c.setFillColor(COR_FAIXA_MEIO)
-    c.rect(0, altura * 0.75, largura, altura * 0.25, fill=1, stroke=0)
-    
-    c.setFillColor(COR_TEXTO_CLARO)
-    c.setFont("Helvetica-Bold", 24)
-    c.drawCentredString(largura / 2, altura * 0.88, "ÍNDICE DE CATEGORIAS")
-    c.setFont("Helvetica", 14)
-    c.drawCentredString(largura / 2, altura * 0.83, "Navegue pelas principais categorias de produtos")
-    
-    categorias_ordenadas = sorted(categorias_map.keys())
-    num_categorias = len(categorias_ordenadas)
-    meio = math.ceil(num_categorias / 2)
 
-    x_col1 = 2 * cm
-    x_col2 = largura / 2 + 0.5 * cm
-    y_start = altura * 0.70
-    y_step = 1.5 * cm
-    
-    def desenhar_item_indice(c, num, nome, pagina, x, y):
-        c.setStrokeColor(colors.lightgrey)
-        c.setLineWidth(0.5)
-        c.rect(x - 0.2 * cm, y - 1.2 * cm, largura/2 - 2*cm, 1.2 * cm, fill=0, stroke=1)
-        
-        c.setFillColor(colors.black)
-        c.setFont("Helvetica", 12)
-        c.drawString(x, y - 0.7 * cm, f"{num}. {nome.upper()}")
-        
-        c.setFillColor(COR_LINK_AZUL)
-        c.setFont("Helvetica-Bold", 10)
-        c.drawString(x_col1 + largura/2 - 4.5 * cm, y - 0.7 * cm, f"Pág. {pagina}")
-        
-
-    for i in range(meio):
-        nome = categorias_ordenadas[i]
-        pagina = categorias_map[nome]
-        desenhar_item_indice(c, i + 1, nome, pagina, x_col1, y_start - i * y_step)
-
-    for j in range(num_categorias - meio):
-        nome = categorias_ordenadas[meio + j]
-        pagina = categorias_map[nome]
-        desenhar_item_indice(c, meio + j + 1, nome, pagina, x_col2, y_start - j * y_step)
-
-    box_largura_dica = largura - 4 * cm
-    box_altura_dica = 3 * cm
-    box_x_dica = 2 * cm
-    box_y_dica = 3 * cm
-    
-    c.setFillColor(COR_FUNDO_CLARO)
-    c.setStrokeColor(COR_LINK_AZUL)
-    c.setLineWidth(1)
-    c.roundRect(box_x_dica, box_y_dica, box_largura_dica, box_altura_dica, 0.5 * cm, fill=1, stroke=1)
-    
-    c.setFillColor(COR_LINK_AZUL)
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(box_x_dica + 0.5 * cm, box_y_dica + box_altura_dica - 0.5 * cm, "Dica de Navegação")
-
-    c.setFillColor(colors.darkgrey)
-    c.setFont("Helvetica", 8)
-    c.drawString(box_x_dica + 0.5 * cm, box_y_dica + box_altura_dica - 1.5 * cm, "Os produtos estão organizados por categorias para facilitar sua busca.")
-    c.drawString(box_x_dica + 0.5 * cm, box_y_dica + box_altura_dica - 2.2 * cm, "Use este índice como referência rápida para encontrar o que procura.")
-    
-    c.showPage()
-
-# === SELEÇÃO DO MODO DE GERAÇÃO (NOVO) ===
-while True:
-    print("\n------------------------------------------------------")
-    print("Selecione o modo de organização do Catálogo:")
-    print("  [C] - Por Categoria (Com Índice de Categorias)")
-    print("  [A] - Alfabética (Geral, sem Índice)")
-    escolha = input("Digite C ou A: ").strip().upper()
-    print("------------------------------------------------------")
-    if escolha in ['C', 'A']:
-        TIPO_ORDENACAO = escolha
-        break
-    else:
-        print("Opção inválida. Por favor, digite C para Categoria ou A para Alfabética.")
+# === MODO DE GERAÇÃO FIXO ===
+TIPO_ORDENACAO = 'A'
+print("Catálogo configurado para ordenação Alfabética (Geral).")
 
 # === LEITURA E PRÉ-PROCESSAMENTO DA PLANILHA ===
 try:
     df = pd.read_excel(excel_path, dtype={'Código do Produto': str})
     df['Categoria'] = df['Categoria'].fillna('Diversos').astype(str).str.strip()
     
-    # Ordenação base
-    if TIPO_ORDENACAO == 'C':
-        # Ordenar por Categoria e, dentro dela, por Código do Produto
-        df = df.sort_values(by=['Categoria', 'Código do Produto'])
-        
-        # Preparação para o loop de categorias
-        produtos_iteracao = df.groupby('Categoria', sort=True)
-    else: # Ordem Alfabética Geral
-        # Ordenar todos os produtos por Descrição ou Código do Produto
-        df = df.sort_values(by=['Descrição', 'Código do Produto'])
-        
-        # O iterador será a lista de todas as linhas do DataFrame
-        # Criamos um iterador que simula o groupby para manter a estrutura do loop
-        produtos_iteracao = [("ALFABÉTICA GERAL", df.iterrows())] 
-        
+    # Ordenação base: SEMPRE ALFABÉTICA
+    # Ordenar todos os produtos por Descrição e, secundariamente, por Código do Produto
+    df = df.sort_values(by=['Descrição', 'Código do Produto'])
+    
+    # O iterador será a lista de todas as linhas do DataFrame (simulando um único grupo)
+    produtos_iteracao = [("ALFABÉTICA GERAL", df.iterrows())] 
+    
 except FileNotFoundError:
     print(f"ERRO: Arquivo Excel não encontrado em: {excel_path}")
     exit()
@@ -241,8 +153,8 @@ largura, altura = A4
 # Estilos para o Paragraph (descrição)
 styles = getSampleStyleSheet()
 styleN = styles['Normal']
-styleN.fontSize = 6
-styleN.leading = 8 
+styleN.fontSize = 5.5 # Reduzido de 6 para 5.5
+styleN.leading = 6.5  # Reduzido de 8 para 6.5
 styleN.alignment = 1
 styleN.fontName = 'Helvetica'
 styleN.textColor = colors.black
@@ -268,28 +180,6 @@ criar_capa(c, largura, altura, logo_path, TIPO_ORDENACAO)
 
 pagina = 1 # A primeira página de conteúdo
 
-# 2. Gerar o Índice (APENAS SE FOR ORDENADO POR CATEGORIA)
-if TIPO_ORDENACAO == 'C':
-    
-    # 2a. Pré-mapeamento das Páginas de Categoria (necessário para o índice)
-    current_page_map = pagina + 1 # Começa após a capa e índice
-    categorias_paginas = {}
-    
-    # Usando uma estimativa simplificada para evitar complexidade excessiva
-    produtos_por_pagina = math.floor((altura - MARGEM_SUPERIOR - ALTURA_RODAPE) / espacamento_vertical) * produtos_por_linha
-    
-    for categoria_nome, grupo_df in produtos_iteracao:
-        categorias_paginas[categoria_nome] = current_page_map
-        
-        # Calcula as páginas para esta categoria e avança o contador
-        num_produtos = len(grupo_df)
-        paginas_categoria = math.ceil(num_produtos / produtos_por_pagina)
-        current_page_map += max(1, paginas_categoria) # Garante que a próxima categoria inicie na página correta
-
-    print(f"Gerando Índice (Página {pagina})...")
-    criar_indice(c, largura, altura, categorias_paginas)
-    pagina += 1 # Avança para a primeira página de conteúdo (após a capa e índice)
-
 # 3. Loop Final para Conteúdo
 y = y_inicio_produtos
 erros_imagem = 0
@@ -297,27 +187,15 @@ produto_index_na_pagina = 0
 
 print(f"Iniciando conteúdo do catálogo (a partir da Página {pagina})...")
 
-# Itera sobre os grupos (categorias ou o grupo único "ALFABÉTICA GERAL")
+# Itera sobre o grupo único "ALFABÉTICA GERAL"
 for grupo_key, grupo_data in produtos_iteracao:
     
-    categoria_atual = grupo_key if TIPO_ORDENACAO == 'C' else ""
-
-    # FORÇAR NOVA PÁGINA PARA CADA CATEGORIA (se não for a primeira página de conteúdo)
-    if TIPO_ORDENACAO == 'C' and produto_index_na_pagina != 0:
-        # Finaliza a página anterior
-        rodape(c, largura, altura, pagina)
-        c.showPage()
-        pagina += 1
-        y = y_inicio_produtos # Reinicia Y no topo da nova página
+    categoria_atual = grupo_key # Será "ALFABÉTICA GERAL"
     
-    # Itera sobre os produtos do grupo/categoria
-    # Se for Categoria, grupo_data é um DataFrame. Se for Alfabética, é um iterrows.
-    if TIPO_ORDENACAO == 'C':
-        it_produtos = grupo_data.iterrows()
-    else:
-        it_produtos = grupo_data
+    # Itera sobre os produtos do grupo
+    it_produtos = grupo_data
 
-    # Desenha cabeçalho na primeira página deste grupo
+    # Desenha cabeçalho na primeira página
     cabecalho(c, largura, altura, pagina, categoria_atual)
     
     for i, row in it_produtos:
@@ -339,10 +217,11 @@ for grupo_key, grupo_data in produtos_iteracao:
         c.setLineWidth(0.5)
         c.roundRect(x_bloco, y_bloco_topo - altura_produto_bloco, largura_produto_bloco, altura_produto_bloco, 0.2 * cm, fill=1, stroke=1)
         
+        # --- ÁREA DA IMAGEM ---
         max_altura_img_area = 3.5 * cm 
         y_img_area_topo = y_bloco_topo - 0.3 * cm
         y_img_area_fundo = y_img_area_topo - max_altura_img_area 
-        largura_img_area = largura_produto_bloco * 0.95
+        largura_img_area = largura_produto_bloco * 0.8
         
         image_loaded = False
         caminho_imagem = None
@@ -368,7 +247,7 @@ for grupo_key, grupo_data in produtos_iteracao:
                     largura_final = altura_final * proporcao 
                 x_img = x_bloco_centro - largura_final / 2
                 c.drawImage(img, x_img, y_img_area_fundo + (max_altura_img_area - altura_final)/2, 
-                            width=largura_final, height=altura_final, preserveAspectRatio=True, mask='auto')
+                             width=largura_final, height=altura_final, preserveAspectRatio=True, mask='auto')
             except Exception as e:
                 erros_imagem += 1
         else:
@@ -379,22 +258,70 @@ for grupo_key, grupo_data in produtos_iteracao:
             c.setFont("Helvetica-Oblique", 8)
             c.drawCentredString(x_bloco_centro, y_img_area_fundo + max_altura_img_area / 2, "Sem imagem")
             
-        c.setFillColor(COR_AZUL_CODIGO)
-        c.setFont("Helvetica-Bold", 6.5) 
-        largura_cod_btn = largura_produto_bloco * 0.25
+        # --- POSICIONAMENTO DINÂMICO DE PREÇOS E CÓDIGO ---
+        
+        # Inicia a posição abaixo da área da imagem
+        y_current = y_img_area_fundo - 0.2 * cm
+        precos_existentes = False
+        
+        preco_antigo = row.get("Preço Antigo", "")
+        preco_promocional = row.get("Preço Promoção", "")
+
+        # 1. PREÇOS
+        if preco_promocional:
+            precos_existentes = True
+            
+            # Preço antigo (cinza e riscado)
+            if preco_antigo:
+                preco_antigo_txt = f"R$ {preco_antigo:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+                c.setFont("Helvetica", 7)
+                c.setFillColor(colors.grey)
+                c.drawCentredString(x_bloco_centro, y_current, preco_antigo_txt)
+
+                # Linha de risco sobre o preço antigo
+                text_width = c.stringWidth(preco_antigo_txt, "Helvetica", 7)
+                c.setStrokeColor(colors.grey)
+                c.setLineWidth(0.5)
+                c.line(x_bloco_centro - text_width / 2, y_current + 1, x_bloco_centro + text_width / 2, y_current + 1)
+                
+                y_current -= 0.35 * cm  # Move para baixo (espaço entre preços)
+
+            # Preço promocional (vermelho e maior)
+            preco_promo_txt = f"R$ {preco_promocional:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            c.setFont("Helvetica-Bold", 9)
+            c.setFillColor(colors.red)
+            c.drawCentredString(x_bloco_centro, y_current, preco_promo_txt)
+            
+            y_current -= 0.6 * cm # Adiciona espaço abaixo do preço promocional para o código
+
+        # 2. CÓDIGO DO PRODUTO (sempre abaixo do último preço ou abaixo da imagem se sem preço)
+        
+        largura_cod_btn = largura_produto_bloco * 0.2
         altura_cod_btn = 0.4 * cm
         x_cod_btn = x_bloco_centro - largura_cod_btn / 2
-        y_cod_btn = y_img_area_fundo - altura_cod_btn - 0.1 * cm 
+
+        if precos_existentes:
+            # Posição calculada após os preços
+            y_cod_btn = y_current 
+        else:
+            # Posição padrão se não houver preços
+            y_cod_btn = y_img_area_fundo - 0.9 * cm 
+
+        # Desenho do botão do código
+        c.setFillColor(COR_AZUL_CODIGO)
+        c.setFont("Helvetica-Bold", 6.5) 
         c.roundRect(x_cod_btn, y_cod_btn, largura_cod_btn, altura_cod_btn, 0.15 * cm, fill=1, stroke=0)
         c.setFillColor(colors.white) 
-        c.drawCentredString(x_bloco_centro, y_cod_btn + 0.15 * cm, codigo_produto) 
-        
+        c.drawCentredString(x_bloco_centro, y_cod_btn + 0.10 * cm, codigo_produto) 
+
+        # 3. DESCRIÇÃO (Fundo do Card)
         c.setFillColor(colors.black)
         desc_limpa = " ".join(descricao.split())
         p = Paragraph(desc_limpa, styleN)
         largura_desc_area = largura_produto_bloco * 0.9
         y_desc_base = y_bloco_topo - altura_produto_bloco + 0.2 * cm 
-        p_width, p_height = p.wrapOn(c, largura_desc_area, 0.8 * cm)
+        # Área de wrap reduzida para 0.6 * cm para limitar a altura da descrição
+        p_width, p_height = p.wrapOn(c, largura_desc_area, 0.5 * cm) 
         c.saveState()
         c.translate(x_bloco_centro - p_width / 2, y_desc_base)
         p.drawOn(c, 0, 0)
@@ -417,7 +344,10 @@ for grupo_key, grupo_data in produtos_iteracao:
 
 
 # === FINALIZA ===
-rodape(c, largura, altura, pagina)
+# Garante que o rodapé da última página seja desenhado
+if y != y_inicio_produtos or produto_index_na_pagina != 0:
+    rodape(c, largura, altura, pagina)
+    
 c.save()
 
 print("\n--- Geração Concluída ---")
