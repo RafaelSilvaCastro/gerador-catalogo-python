@@ -96,7 +96,7 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     c.drawCentredString(largura / 2, altura * 0.50, "BIKE FRIDAY")
     c.setFillColor(colors.red)
     c.setFont("Helvetica", 22)
-    c.drawCentredString(largura / 2, altura * 0.45, "PRODUTOS COM ATÉ 44% DE DESCONTO")
+    c.drawCentredString(largura / 2, altura * 0.45, "PRODUTOS COM ATÉ 45% DE DESCONTO")
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 14)
     c.drawCentredString(largura / 2, altura * 0.38, "Peças e Acessórios para Ciclismo")
