@@ -31,6 +31,8 @@ Para rodar este script, você precisará ter o Python instalado e as seguintes b
 pip install pandas reportlab openpyxl
 
 
+
+
 2. Estrutura de Pastas
 
 O projeto espera a seguinte estrutura de arquivos para funcionar corretamente:
@@ -43,6 +45,8 @@ O projeto espera a seguinte estrutura de arquivos para funcionar corretamente:
 └── img_produtos/
     ├── CODIGO.jpg (Imagens dos produtos, nomeadas pelo Código do Produto)
     └── CODIGO_LIMPO.png
+
+
 
 
 3. Planilha de Dados (produtos.xlsx)
@@ -95,6 +99,8 @@ COR_FUNDO_ESCURO = colors.Color(red=0.0, green=0.0, blue=0.0) # Preto Absoluto p
 # ... outras cores
 
 
+
+
 🚀 Como Executar o Projeto
 
 Certifique-se de ter todos os requisitos instalados e a estrutura de arquivos correta (planilha, logo e pasta de imagens).
@@ -104,6 +110,8 @@ Abra o terminal ou prompt de comando na pasta do projeto.
 Execute o script Python:
 
 python catalogo_generator_alfabetico.py
+
+
 
 
 Após a execução, o catálogo será gerado no caminho especificado por pdf_path.
