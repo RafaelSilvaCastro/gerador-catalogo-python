@@ -13,7 +13,7 @@ import math
 
 # === CONFIGURAÇÕES GERAIS ===
 excel_path = "produtos.xlsx"
-pdf_path = "catalogo_amaisciclo_bike_friday.pdf"
+pdf_path = "catalogo_amaisciclo_bicicletas.pdf"
 logo_path = "logo_amaisciclo.png"
 img_desconto = "10porcem.jpg"
 img_dir = "img_produtos"
@@ -53,7 +53,7 @@ def cabecalho(c, largura, altura, pagina, categoria_atual=""):
         pass
     c.setFillColorRGB(0, 0, 0)
     c.setFont("Helvetica-Bold", 18)
-    c.drawString(7 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, "BIKE FRIDAY A+Ciclo")
+    c.drawString(5 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, "CATALOGO DE BICICLETAS A+Ciclo")
 
     
     c.setStrokeColorRGB(0.7, 0.7, 0.7)
@@ -92,11 +92,11 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
         c.drawCentredString(largura / 2, altura * 0.82, "A+CICLO")
 
     c.setFillColor(COR_TEXTO_CLARO)
-    c.setFont("Helvetica-Bold", 48)
-    c.drawCentredString(largura / 2, altura * 0.50, "BIKE FRIDAY")
+    c.setFont("Helvetica-Bold", 30)
+    c.drawCentredString(largura / 2, altura * 0.50, "CATALOGO DE BICICLETAS")
     c.setFillColor(colors.red)
-    c.setFont("Helvetica", 22)
-    c.drawCentredString(largura / 2, altura * 0.45, "PRODUTOS COM ATÉ 45% DE DESCONTO")
+    c.setFont("Helvetica", 20)
+    c.drawCentredString(largura / 2, altura * 0.45, "PROMOÇÃO 6 BICICLETAS 29 POR 692,67 CADA!")
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 14)
     c.drawCentredString(largura / 2, altura * 0.38, "Peças e Acessórios para Ciclismo")
@@ -112,7 +112,7 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 10)
     
-    texto_data = f" Válido de {data_geracao} até 29/11/2025!"
+    texto_data = f" Válido de {data_geracao}"
         
     c.drawCentredString(largura / 2, box_y + 0.4 * cm, texto_data)
 
@@ -153,8 +153,8 @@ largura, altura = A4
 # Estilos para o Paragraph (descrição)
 styles = getSampleStyleSheet()
 styleN = styles['Normal']
-styleN.fontSize = 5.5 # Reduzido de 6 para 5.5
-styleN.leading = 6.5  # Reduzido de 8 para 6.5
+styleN.fontSize = 5 # Reduzido de 6 para 5.5
+styleN.leading = 6  # Reduzido de 8 para 6.5
 styleN.alignment = 1
 styleN.fontName = 'Helvetica'
 styleN.textColor = colors.black
