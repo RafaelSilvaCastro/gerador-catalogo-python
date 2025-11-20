@@ -13,9 +13,9 @@ import math
 
 # === CONFIGURAÇÕES GERAIS ===
 excel_path = "produtos1.xlsx"
-pdf_path = "catalogo_amaisciclo.pdf"
-logo_path = "logo_amaisciclo.png"
-img_dir = "img_produtos"
+pdf_path = "pdfs/catalogo_amaisciclo.pdf"
+logo_path = "img/logo_amaisciclo.png"
+img_dir = "img/img_produtos"
 
 # Cores
 COR_AZUL_CODIGO = colors.Color(0.25, 0.45, 0.85)

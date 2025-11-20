@@ -12,11 +12,11 @@ from datetime import date
 
 # === CONFIGURAÇÕES GERAIS ===
 excel_path = "produtos.xlsx"
-pdf_path = "catalogo_amaisciclo_bicicletas.pdf"
-logo_path = "logo_amaisciclo.png"
-fundo = "fundo.jpg"
+pdf_path = "pdfs/catalogo_amaisciclo_bicicletas.pdf"
+logo_path = "img/logo_amaisciclo.png"
+fundo = "img/fundo.jpg"
 img_desconto = "10porcem.jpg"
-img_dir = "img_produtos"
+img_dir = "img/img_produtos"
 
 # Cores
 COR_DESTAQUE_CODIGO = colors.Color(red=0.8, green=0.0, blue=0.0) # Vermelho Forte para o Código (Anteriormente COR_AZUL_CODIGO)
