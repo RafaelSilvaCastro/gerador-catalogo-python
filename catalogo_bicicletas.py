@@ -214,7 +214,7 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
     <p>CORRENTE FINA 7/8V MODELO DG51 116 INDEX</p>
     <p>ABRAC. SELIM 31.8 AL PRETO</p>
     <p>MOV DIRECAO M. OVER PRETO</p>
-    <p>RODA LIVRE 7V INDEX 13/28D</p>
+    <p>RODA LIVRE 7V INDEX 14/28D</p>
     <p>MANOPLA MTB PRETO</p>
     <p>SUPORTE MTB 31.8 PRETO</p>
     
