@@ -100,7 +100,7 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     c.drawCentredString(largura / 2, altura * 0.50, "CATÁLOGO DE BICICLETAS")
     c.setFillColor(colors.red)
     c.setFont("Helvetica", 20)
-    c.drawCentredString(largura / 2, altura * 0.45, "EDIÇÃO - 1/11")
+    c.drawCentredString(largura / 2, altura * 0.45, "EDIÇÃO - 2/11")
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 14)
     c.drawCentredString(largura / 2, altura * 0.38, "")
@@ -191,7 +191,7 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
     <p>CORRENTE FINA 7/8V MODELO DG51 116 INDEX</p>
     <p>ABRAC. SELIM 31.8 AL PRETO</p>
     <p>MOV DIRECAO M. OVER PRETO</p>
-    <p>RODA LIVRE 7V INDEX 13/28D</p>
+    <p>RODA LIVRE 7V INDEX 14/28D</p>
     <p>MANOPLA MTB PRETO</p>
     <p>SUP MTB 31.8 (60MM) OU SIMILAR PTO</p>
     
@@ -203,8 +203,6 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
     <p>GARFO 29 S. 28.6 AH SET PRETO, CANELAS DE 38MM E CURSO DE 80MM</p>
     <p>MOV CENTRAL 34.7/122MM C/ ROLAMENTO SELADO</p>
     <p>PEDIV TRIPLO ENC 24/34/42 PRETO</p>
-    <p>PNEUS 29X2.10 SRI PTO</p>
-    <p>ARO 26 VMAXX SL VZAN 36F PTO DISC S/ILHOS</p>
     <p>PNEUS 29X2.10 SRI PTO</p>
     <p>CUBO AL DT/TR 36 FUROS ESFERADO C/ BLOCAGEM PRETO</p>
     <p>AROS 29/36 FUROS PRETO DISC</p>
@@ -226,7 +224,7 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
     <p>FREIO HIDRÁULICO </p>
     <p>GARFO 29 S. 28.6 AH SET PRETO, CURSO DE 100MM E TRAVA NO OMBRO</p>
     <p>MOV CENTRAL 34.7/122MM C/ ROLAMENTO SELADO</p>
-    <p>PEDIV DUPLO ENC 24/34/42 PRETO</p>
+    <p>PEDIV TRIPLO ENC 24/34/42 PRETO</p>
     <p>PNEUS 29X2.10 SRI PTO</p>
     <p>CUBO AL K7 36 FUROS  C/ BLOCAGEM E ROLAMENTOS</p>
     <p>AROS 29/36 FUROS PRETO DISC</p>
