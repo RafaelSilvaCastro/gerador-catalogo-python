@@ -19,7 +19,7 @@ img_desconto = "10porcem.jpg"
 img_dir = "img/img_produtos"
 
 # Cores
-COR_DESTAQUE_CODIGO = colors.Color(red=0.8, green=0.0, blue=0.0) # Vermelho Forte para o Código (Anteriormente COR_AZUL_CODIGO)
+COR_DESTAQUE_CODIGO = colors.Color(red=0.8, green=0.0, blue=0.0) # Vermelho Forte para o Código
 COR_SOMBRA = colors.Color(0.8, 0.8, 0.8) # Sombra mais clara
 COR_FUNDO_CARD = colors.white
 COR_FUNDO_ESCURO = colors.Color(red=0.0, green=0.0, blue=0.0) # Preto Absoluto para o fundo da capa
@@ -48,7 +48,10 @@ def normalize_code(code_str):
 
 # === FUNÇÕES DE LAYOUT (CABECALHO/RODAPE/CAPA/INDICE) ===
 
-def cabecalho(c, largura, altura, pagina, categoria_atual=""):
+def cabecalho(c, largura, altura, pagina, titulo_grupo=""):
+    """
+    Desenha o cabeçalho, agora usando titulo_grupo para exibir a Categoria e o Tamanho.
+    """
     c.setFillColorRGB(0.95, 0.95, 0.95)
     ALTURA_CABECALHO = 1.5 * cm
     c.rect(0, altura - ALTURA_CABECALHO, largura, ALTURA_CABECALHO, fill=True, stroke=0)
@@ -58,7 +61,8 @@ def cabecalho(c, largura, altura, pagina, categoria_atual=""):
         pass
     c.setFillColorRGB(0, 0, 0)
     c.setFont("Helvetica-Bold", 18)
-    c.drawString(6 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, f"CATÁLOGO DE {categoria_atual}")
+    # Exibe o título do grupo (ex: Bicicletas - Tamanho 17)
+    c.drawString(1.6 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, f"CATÁLOGO: {titulo_grupo}")
     
     c.setStrokeColorRGB(0.7, 0.7, 0.7)
     c.setLineWidth(1)
@@ -100,7 +104,7 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     c.drawCentredString(largura / 2, altura * 0.50, "CATÁLOGO DE BICICLETAS")
     c.setFillColor(colors.red)
     c.setFont("Helvetica", 20)
-    c.drawCentredString(largura / 2, altura * 0.45, "EDIÇÃO - 2/11")
+    c.drawCentredString(largura / 2, altura * 0.45, "EDIÇÃO - 3/11")
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 14)
     c.drawCentredString(largura / 2, altura * 0.38, "")
@@ -126,11 +130,12 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
 
     c.showPage()
     
-# === NOVA FUNÇÃO: PÁGINA DE ESPECIFICAÇÕES (AGORA COM 2 COLUNAS E FLUXO DE PÁGINAS) ===
+# === PÁGINA DE ESPECIFICAÇÕES (AGORA COM 2 COLUNAS E FLUXO DE PÁGINAS) ===
 def criar_pagina_especificacao(c, largura, altura, pagina_num):
     """
     Desenha a página de especificações e condições comerciais com layout de duas colunas,
     incluindo uma imagem de fundo (watermark) e garantindo a quebra de página.
+    Os componentes de cada bicicleta são ordenados alfabeticamente.
     """
     
     # Função auxiliar para desenhar Fundo, Cabeçalho e Rodapé em qualquer página de especificação
@@ -226,7 +231,7 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
     <p>MOV CENTRAL 34.7/122MM C/ ROLAMENTO SELADO</p>
     <p>PEDIV TRIPLO ENC 24/34/42 PRETO</p>
     <p>PNEUS 29X2.10 SRI PTO</p>
-    <p>CUBO AL K7 36 FUROS  C/ BLOCAGEM E ROLAMENTOS</p>
+    <p>CUBO AL K7 36 FUROS  C/ BLOCAGEM E ROLAMENTOS</p>
     <p>AROS 29/36 FUROS PRETO DISC</p>
     <p>SELIM MTB PRETO C/CARRINHO</p>
     <p>CANOTE ALUMÍNIO 27.2X350MM PRETO COM CARRINHO</p>
@@ -290,8 +295,12 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
         # Se for um bloco de parágrafos (componentes)
         elif current_h1:
             lista_itens = re.findall(r'<p>(.*?)<\/p>', bloco, re.DOTALL)
-            # Armazena o título e a lista de itens
-            conteudo_formatado.append((current_h1, [item.strip() for item in lista_itens if item.strip()]))
+            
+            # Extrai e ordena os itens da lista de componentes em ordem alfabética.
+            componentes_ordenados = sorted([item.strip() for item in lista_itens if item.strip()])
+            
+            # Armazena o título e a lista de itens ordenados
+            conteudo_formatado.append((current_h1, componentes_ordenados))
             current_h1 = "" # Reseta o título
             
     # 4. Loop de Desenho com Controle de Quebra de Página
@@ -358,8 +367,7 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
             # Recalcula o wrap na nova altura (em caso de multi-página, para garantir a precisão)
             p_left.wrapOn(c, col_width, altura)
             p_right.wrapOn(c, col_width, altura)
-            block_height = max(p_left_height, p_right_height)
-
+            # A altura é recalculada, mas o wrapOn já define p_left_height e p_right_height
 
         # Atualiza a posição Y para o topo do bloco de duas colunas
         y_current -= block_height
@@ -387,35 +395,38 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
     # Retorna o novo número da página
     return pagina_num + 1
 
-# === MODO DE GERAÇÃO FIXO (Mantido, mas agora o processamento usa a Categoria) ===
+# === MODO DE GERAÇÃO FIXO (Mantido) ===
 TIPO_ORDENACAO = 'C'
-print("Catálogo configurado para ordenação por Categoria.")
+print("Catálogo configurado para ordenação por Categoria e Tamanho.")
 
-# === LEITURA E PRÉ-PROCESSAMENTO DA PLANILHA (AJUSTADO) ===
+# === LEITURA E PRÉ-PROCESSAMENTO DA PLANILHA (AJUSTADO PARA NOVO AGRUPAMENTO) ===
 try:
     # Apenas para o ambiente de execução, simulamos a criação de um DataFrame se o arquivo não existir
     if not os.path.exists(excel_path):
         print(f"ATENÇÃO: Arquivo Excel não encontrado em: {excel_path}. Criando DataFrame de simulação.")
         data = {
-            'Código do Produto': ['1001', '1002', '2001', '2002', '1003'],
-            'Descrição': ['Bicicleta Aro 29 Pro', 'Bicicleta Aro 26 Infantil', 'Peça de Freio Disco', 'Peça de Selim Conforto', 'Bicicleta Urbano Light'],
-            'Categoria': ['Bicicletas', 'Bicicletas', 'Componentes', 'Componentes', 'Bicicletas'],
-            'Preço Antigo': [2500.00, 1200.00, None, None, 1800.00],
-            'Preço Promoção': [2350.00, 1050.00, 45.00, 60.00, 1699.00]
+            'Código do Produto': ['1001', '1002', '2001', '2002', '1003', '1004', '1005', '1006'],
+            'Descrição': ['Bicicleta Aro 29 Pro', 'Bicicleta Aro 26 Infantil', 'Peça de Freio Disco', 'Peça de Selim Conforto', 'Bicicleta Urbano Light', 'Bicicleta Aro 29 Sport', 'Bicicleta Aro 29 Elite', 'Bicicleta Aro 26 Confort'],
+            'Categoria': ['Bicicletas', 'Bicicletas', 'Componentes', 'Componentes', 'Bicicletas', 'Bicicletas', 'Bicicletas', 'Bicicletas'],
+            # NOVA COLUNA TAMANHO DA BICICLETA
+            'Tamanho da Bicicleta': ['17', '13', 'N/A', 'N/A', '15', '17', '19', '13'], 
+            'Preço Antigo': [2500.00, 1200.00, None, None, 1800.00, 2100.00, 3500.00, 1300.00],
+            'Preço Promoção': [2350.00, 1050.00, 45.00, 60.00, 1699.00, 1999.00, 3200.00, 1150.00]
         }
         df = pd.DataFrame(data)
     else:
         df = pd.read_excel(excel_path, dtype={'Código do Produto': str})
     
-    # Assegura que todas as categorias são strings e trata NaN
+    # Assegura que todas as colunas de agrupamento são strings e trata NaN
     df['Categoria'] = df['Categoria'].fillna('Diversos').astype(str).str.strip()
+    df['Tamanho da Bicicleta'] = df['Tamanho da Bicicleta'].fillna('N/A').astype(str).str.strip() # Tratamento da nova coluna
     
-    # 1. ORDENAÇÃO: Primeiro por Categoria (para agrupar) e depois por Descrição/Código
-    df = df.sort_values(by=['Categoria', 'Descrição', 'Código do Produto'])
+    # 1. ORDENAÇÃO: Primeiro por Categoria, depois por Tamanho da Bicicleta, e então por Código do Produto
+    df = df.sort_values(by=['Categoria', 'Tamanho da Bicicleta', 'Código do Produto'])
     
-    # 2. AGRUPAMENTO: Agrupa por Categoria
+    # 2. AGRUPAMENTO: Agrupa por Categoria E Tamanho da Bicicleta
     # O iterador será uma lista de tuplas (Nome da Categoria, DataFrame do Grupo)
-    produtos_iteracao = df.groupby('Categoria')
+    produtos_iteracao = df.groupby(['Categoria', 'Tamanho da Bicicleta'])
     
 except Exception as e:
     print(f"ERRO: Falha ao ler o arquivo Excel ou criar o DataFrame: {e}")
@@ -458,9 +469,15 @@ primeiro_grupo = True # Flag para tratar a primeira página de conteúdo
 print(f"Iniciando conteúdo do catálogo (a partir da Página {pagina})...")
 
 # 3. Loop Final para Conteúdo
-# Itera sobre os grupos de categorias
-for categoria_atual, df_grupo in produtos_iteracao:
+# Itera sobre os grupos de categorias (agora a chave é uma tupla: (Categoria, Tamanho))
+for (categoria_atual, tamanho_atual), df_grupo in produtos_iteracao:
     
+    # Define o título do grupo (ex: Bicicletas - Tamanho 17)
+    if tamanho_atual == 'N/A':
+        titulo_grupo = f"{categoria_atual}" # Se não houver tamanho, exibe apenas a categoria
+    else:
+        titulo_grupo = f"{categoria_atual} - TAMANHO {tamanho_atual}"
+
     # Se não for o primeiro grupo E já houver conteúdo na página, força a quebra.
     if not primeiro_grupo:
         # 1. Garante que o rodapé e a quebra de página ocorram antes do novo grupo
@@ -469,15 +486,15 @@ for categoria_atual, df_grupo in produtos_iteracao:
              c.showPage()
              pagina += 1
     
-    print(f"Processando Categoria: {categoria_atual}")
+    print(f"Processando Grupo: {titulo_grupo}")
 
     # Reconfigura a posição Y e o índice na página para o novo grupo
     y = y_inicio_produtos
     produto_index_na_pagina = 0
     primeiro_grupo = False
     
-    # Desenha cabeçalho da nova página/categoria
-    cabecalho(c, largura, altura, pagina, categoria_atual)
+    # Desenha cabeçalho da nova página/grupo
+    cabecalho(c, largura, altura, pagina, titulo_grupo)
     
     # Itera sobre os produtos do grupo (Iterrows retorna o índice e a série)
     for i, row in df_grupo.iterrows():
@@ -569,17 +586,17 @@ for categoria_atual, df_grupo in produtos_iteracao:
         c.restoreState()
 
 
-        # === PRÓXIMO BLOCO / QUEBRA DE PÁGINA (DENTRO DA CATEGORIA) ===
+        # === PRÓXIMO BLOCO / QUEBRA DE PÁGINA (DENTRO DO GRUPO) ===
         if col == produtos_por_linha - 1:
             y -= espacamento_vertical
             produto_index_na_pagina = 0
             
             if y - altura_produto_bloco < ALTURA_RODAPE + 0.5 * cm:
-                # Quebra de página dentro da mesma Categoria
+                # Quebra de página dentro do mesmo Grupo (Categoria + Tamanho)
                 rodape(c, largura, altura, pagina)
                 c.showPage()
                 pagina += 1
-                cabecalho(c, largura, altura, pagina, categoria_atual) # Novo cabeçalho na nova página
+                cabecalho(c, largura, altura, pagina, titulo_grupo) # Novo cabeçalho na nova página
                 y = y_inicio_produtos 
         else:
             produto_index_na_pagina += 1
@@ -594,6 +611,5 @@ c.save()
 
 print("\n--- Geração Concluída ---")
 print(f"✅ Catálogo gerado com sucesso: {pdf_path}")
-print(f"Total de páginas: {pagina}")
 if erros_imagem > 0:
     print(f"⚠️ {erros_imagem} imagem(ns) não encontrada(s) ou falhou no carregamento.")
