@@ -174,7 +174,6 @@ def criar_pagina_especificacao(c, largura, altura, pagina_num):
         cabecalho(c_local, largura_local, altura_local, pagina_num_local, categoria_atual_local)
         rodape(c_local, largura_local, altura_local, pagina_num_local)
 
-
     texto_especificacao_raw = """
     <h1><strong>DESCRIÇÃO BICICLETA 26 VIKING</strong></h1>
     <p>QUADRO 26 AL VIKING DIRT J.</p>
