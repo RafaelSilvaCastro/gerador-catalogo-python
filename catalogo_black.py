@@ -13,7 +13,7 @@ import math
 
 # === CONFIGURAÇÕES GERAIS ===
 excel_path = "produtos1.xlsx"
-pdf_path = "pdfs/catalogo_amaisciclo_natal.pdf"
+pdf_path = "pdfs/catalogo_amaisciclo_verao.pdf"
 logo_path = "img/logo_amaisciclo.png"
 img_desconto = "10porcem.jpg"
 img_dir = "img/img_produtos"
@@ -53,7 +53,7 @@ def cabecalho(c, largura, altura, pagina, categoria_atual=""):
         pass
     c.setFillColorRGB(0, 0, 0)
     c.setFont("Helvetica-Bold", 18)
-    c.drawString(5 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, "SUPER PROMOÇÃO DE NATAL A+Ciclo")
+    c.drawString(5 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, "PROMOÇÃO VERÃO 1.0 A+Ciclo")
 
     
     c.setStrokeColorRGB(0.7, 0.7, 0.7)
@@ -96,7 +96,7 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     #c.drawCentredString(largura / 2, altura * 0.50, "CATALOGO DE BICICLETAS")
     c.setFillColor(colors.red)
     c.setFont("Helvetica", 20)
-    c.drawCentredString(largura / 2, altura * 0.45, "SUPER PROMOÇÃO DE NATAL!")
+    c.drawCentredString(largura / 2, altura * 0.45, "PROMOÇÃO VERÃO 1.0!")
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 14)
     c.drawCentredString(largura / 2, altura * 0.38, "Peças e Acessórios para Ciclismo")
@@ -112,13 +112,13 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 10)
     
-    texto_data = f" Válido de {data_geracao} ate 22/12/2025"
+    texto_data = f" Válido de {data_geracao}"
         
     c.drawCentredString(largura / 2, box_y + 0.4 * cm, texto_data)
 
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 8)
-    c.drawCentredString(largura / 2, 1 * cm, "Catálogo Digital - Versão 2.0")
+    c.drawCentredString(largura / 2, 1 * cm, "Catálogo Digital - Versão 1.0")
 
     c.showPage()
 
@@ -272,23 +272,23 @@ for grupo_key, grupo_data in produtos_iteracao:
             precos_existentes = True
             
             # Preço antigo (cinza e riscado)
-            if preco_antigo:
-                preco_antigo_txt = f"R$ {preco_antigo:,.2f} A PRAZO".replace(",", "X").replace(".", ",").replace("X", ".")
-                c.setFont("Helvetica", 7)
-                c.setFillColor(colors.grey)
-                c.drawCentredString(x_bloco_centro, y_current, preco_antigo_txt)
+            # if preco_antigo:
+            #     preco_antigo_txt = f"R$ {preco_antigo:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            #     c.setFont("Helvetica", 7)
+            #     c.setFillColor(colors.grey)
+            #     c.drawCentredString(x_bloco_centro, y_current, preco_antigo_txt)
 
-                # Linha de risco sobre o preço antigo
-                # text_width = c.stringWidth(preco_antigo_txt, "Helvetica", 7)
-                # c.setStrokeColor(colors.grey)
-                # c.setLineWidth(0.5)
-                # c.line(x_bloco_centro - text_width / 2, y_current + 1, x_bloco_centro + text_width / 2, y_current + 1)
+            #     # Linha de risco sobre o preço antigo
+            #     # text_width = c.stringWidth(preco_antigo_txt, "Helvetica", 7)
+            #     # c.setStrokeColor(colors.grey)
+            #     # c.setLineWidth(0.5)
+            #     # c.line(x_bloco_centro - text_width / 2, y_current + 1, x_bloco_centro + text_width / 2, y_current + 1)
                 
-                y_current -= 0.35 * cm  # Move para baixo (espaço entre preços)
+            y_current -= 0.35 * cm  # Move para baixo (espaço entre preços)
 
             # Preço promocional (vermelho e maior)
-            preco_promo_txt = f"R$ {preco_promocional:,.2f} A VISTA".replace(",", "X").replace(".", ",").replace("X", ".")
-            c.setFont("Helvetica-Bold", 9)
+            preco_promo_txt = f"R$ {preco_promocional:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+            c.setFont("Helvetica-Bold", 10)
             c.setFillColor(colors.red)
             c.drawCentredString(x_bloco_centro, y_current, preco_promo_txt)
             
