@@ -16,7 +16,7 @@ pdf_path = "pdfs/catalogo_amaisciclo_bicicletas.pdf"
 logo_path = "img/logo_amaisciclo.png"
 fundo = "img/fundo.jpg"
 img_desconto = "10porcem.jpg"
-img_dir = "img/img_produtos"
+img_dir = "img/img"
 
 # Cores
 COR_DESTAQUE_CODIGO = colors.Color(red=0.8, green=0.0, blue=0.0) # Vermelho Forte para o Código
@@ -104,7 +104,7 @@ def criar_capa(c, largura, altura, logo_path, tipo_ordenacao):
     c.drawCentredString(largura / 2, altura * 0.50, "CATÁLOGO DE BICICLETAS")
     c.setFillColor(colors.red)
     c.setFont("Helvetica", 20)
-    c.drawCentredString(largura / 2, altura * 0.45, "EDIÇÃO - 1/1")
+    c.drawCentredString(largura / 2, altura * 0.45, "EDIÇÃO - 1/2")
     c.setFillColor(COR_TEXTO_CLARO)
     c.setFont("Helvetica", 14)
     c.drawCentredString(largura / 2, altura * 0.38, "")
