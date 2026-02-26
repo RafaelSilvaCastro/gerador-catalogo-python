@@ -13,7 +13,7 @@ from datetime import date
 
 # === CONFIGURAÇÕES GERAIS ===
 excel_path = "produtos.xlsx"
-pdf_path = "pdfs/catalogo_amaisciclo_bicicletas.pdf"
+pdf_path = "pdfs/catalogo_amaisciclo_bicicletas_epecificações.pdf"
 logo_path = "img/logo_amaisciclo.png"
 img_dir = "img/img"
 
@@ -120,8 +120,8 @@ def cabecalho(c, largura, altura, pagina, titulo_grupo=""):
         c.drawImage(logo_path, 2 * cm, altura - ALTURA_CABECALHO + 0.3 * cm, width=3.0 * cm, preserveAspectRatio=True, mask='auto')
     except: pass
     c.setFillColorRGB(0, 0, 0)
-    c.setFont("Helvetica-Bold", 14)
-    c.drawString(6 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, f"CATÁLOGO: {titulo_grupo}")
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(1.5 * cm, altura - ALTURA_CABECALHO + 0.5 * cm, f"CATÁLOGO: {titulo_grupo}")
     c.setStrokeColorRGB(0.7, 0.7, 0.7)
     c.line(1.5 * cm, altura - ALTURA_CABECALHO - 0.1 * cm, largura - 1.5 * cm, altura - ALTURA_CABECALHO - 0.1 * cm)
 
